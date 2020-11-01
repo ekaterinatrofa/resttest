@@ -1,4 +1,4 @@
-package pl.edu.pjwstk.jaz;
+package pl.edu.pjwst.jaz;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 @Configuration
