@@ -20,4 +20,5 @@ public class ReadinessController {
         entity.setName("sdavsda");
         em.persist(entity);
     }
+
 }
