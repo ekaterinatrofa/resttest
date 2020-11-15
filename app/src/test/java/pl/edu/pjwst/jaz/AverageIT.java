@@ -26,9 +26,9 @@ public class AverageIT {
     public void when_no_parameter_supplied_should_print_a_message() {
         // @formatter:off
         given()
-                .when().log().all()
+        .when()
                 .get("/api/average")
-                .then()
+        .then()
                 .body("message", equalTo("Please put parameters"));
         // @formatter:on
     }
@@ -37,32 +37,34 @@ public class AverageIT {
     public void should_remove_trailing_zero_case_1() {
         // @formatter:off
         given()
-                .when()
+        .when()
                 .param("numbers", "1,2")
                 .get("/api/average")
-                .then()
+        .then()
                 .body("message", equalTo("Average equals 1.5"));
         // @formatter:on
     }
+
     @Test
     public void should_remove_trailing_zero_case_2() {
         // @formatter:off
         given()
-                .when()
+        .when()
                 .param("numbers", "4,3,1,7,5")
                 .get("/api/average")
-                .then()
+        .then()
                 .body("message", equalTo("Average equals 4"));
         // @formatter:on
     }
+
     @Test
     public void should_round() {
         // @formatter:off
         given()
-                .when()
+        .when()
                 .param("numbers", "2,1,1")
                 .get("/api/average")
-                .then()
+        .then()
                 .body("message", equalTo("Average equals 1.33"));
         // @formatter:on
     }
