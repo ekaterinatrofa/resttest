@@ -1,7 +1,9 @@
 package pl.edu.pjwst.jaz;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -12,13 +14,18 @@ public class RegisterController {
         this.userService = userService;
     }
 
+
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         //написать
-        return userService.register(user);
+
+        return userService.register(user.getUsername(),user);
     }
-    @GetMapping("/register")
+
+    @PreAuthorize("hasAuthority('admin')")
+    @GetMapping("/listUsers")
     public List<User> list() {
         return userService.list();
     }
+
 }

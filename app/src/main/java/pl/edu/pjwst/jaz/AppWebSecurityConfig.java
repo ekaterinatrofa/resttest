@@ -12,7 +12,7 @@ public class AppWebSecurityConfig {
         FilterRegistrationBean<ExampleFilter> registrationBean = new FilterRegistrationBean<>();
 
         registrationBean.setFilter(new ExampleFilter(userSession));
-        registrationBean.addUrlPatterns("/*");
+        registrationBean.addUrlPatterns("/auth0/*");
 
         return registrationBean;
     }

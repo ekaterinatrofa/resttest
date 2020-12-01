@@ -2,10 +2,8 @@ package pl.edu.pjwst.jaz;
 
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,34 +17,30 @@ public class UserService {
 
         users = new HashMap<String, User>();
 
-        User firstUser = new User("Robert", "Brown","hghkgkuh", "user");
+        User firstUser = new User("user","Robert", "Brown","qwerty", Collections.singleton("user"));
         users.put("user",firstUser);
-        User secondUser = new User("Admin", "Admin", "Admin", "admin");
+        User secondUser = new User("admin","Admin", "Admin", "Admin", Collections.singleton("admin"));
         users.put("admin",secondUser);
     }
 
     public List<User> list() {
-
         return new ArrayList<User>(users.values());
     }
 
-    public User register(User user) {
+
+
+    public User register(String username, User user) {
 
         users.put(username, user);
         return user;
     }
 
     public User getUsername(String username) {
+
         return users.get(username);
     }
+    public String getPassword() {
 
-
-    public User update(Long id, User user) {
-        users.put(username, user);
-        return user;
-    }
-
-    public User delete(Long id) {
-        return users.remove(id);
+        return users.get(username).getPassword();
     }
 }
