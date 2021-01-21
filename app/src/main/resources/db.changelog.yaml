@@ -7,3 +7,30 @@ databaseChangeLog:
         stripComments: true
         splitStatements: false
         path: db.changelog/20201012_init.sql
+
+  - changeSet:
+      id: 20201201_add_users
+      author: Kateryna Trofymenko
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: db.changelog/20201201_add_users.sql
+
+  - changeSet:
+      id: 20201214_insert_users_for_test
+      author: Kateryna Trofymenko
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: db.changelog/20201214_insert_users_for_test.sql
+
+  - changeSet:
+      id: 20210118_add_tables
+      author: Kateryna Trofymenko
+      sqlFile:
+        relativeToChangelogFile: true
+        stripComments: true
+        splitStatements: false
+        path: db.changelog/20210118_add_tables.sql

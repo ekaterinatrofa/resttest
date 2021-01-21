@@ -1,6 +1,6 @@
 package pl.edu.pjwst.jaz;
 
-import java.util.Set;
+
 
 public class User {
 
@@ -8,9 +8,9 @@ public class User {
     private String firstName;
     private String lastName;
     private String password;
-    private Set<String> role;
+    private String role;
 
-    public User(String username, String firstName, String lastName, String password, Set<String> role) {
+    public User(String username, String firstName, String lastName, String password, String role) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,11 +34,11 @@ public class User {
         return password;
     }
 
-    public Set<String> getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Set<String> role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

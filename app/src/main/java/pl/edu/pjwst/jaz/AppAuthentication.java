@@ -1,17 +1,14 @@
 package pl.edu.pjwst.jaz;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 
 
 public class AppAuthentication extends AbstractAuthenticationToken {
@@ -21,6 +18,7 @@ public class AppAuthentication extends AbstractAuthenticationToken {
 
 
     public AppAuthentication(User authenticatedUser) {
+       // super(toGrantedAuthorities(authenticatedUser.getRole()));
         super(toGrantedAuthorities(authenticatedUser.getRole()));
         this.authenticatedUser = authenticatedUser;
         setAuthenticated(true);
@@ -28,8 +26,9 @@ public class AppAuthentication extends AbstractAuthenticationToken {
 
 
 
-    private static Collection<? extends GrantedAuthority> toGrantedAuthorities(Set<String> authenticatedUser) {
-        return authenticatedUser.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+    private static Collection<? extends GrantedAuthority> toGrantedAuthorities(String authenticatedUser) {
+       // return authenticatedUser.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+        return createAuthorityList(authenticatedUser);
     }
 
 
