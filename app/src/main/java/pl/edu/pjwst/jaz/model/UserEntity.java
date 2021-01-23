@@ -29,7 +29,7 @@ public class UserEntity {
     private String role;
 
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     private List<CategoryEntity> categories = new ArrayList<>();
 
     public List<CategoryEntity> getCategories() {
@@ -42,27 +42,29 @@ public class UserEntity {
         category.setUserEntity(this);
     }
 
-
-    @OneToMany(mappedBy = "user")
-    private List<AuctionEntity> auctions = new ArrayList<>();
-
-    public List<AuctionEntity> getAuctions() {
-        return auctions;
-    }
-
-
-    public void addAuction(AuctionEntity auction) {
-        auctions.add(auction);
-        auction.setUserEntity(this);
-    }
-
     public void setCategories(List<CategoryEntity> categories) {
         this.categories = categories;
     }
 
-    public void setAuctions(List<AuctionEntity> auctions) {
-        this.auctions = auctions;
-    }
+//
+//    @OneToMany(mappedBy = "user")
+//    private List<AuctionEntity> auctions = new ArrayList<>();
+//
+//    public List<AuctionEntity> getAuctions() {
+//        return auctions;
+//    }
+
+
+//    public void addAuction(AuctionEntity auction) {
+//        auctions.add(auction);
+//        auction.setUserEntity(this);
+//    }
+
+
+
+//    public void setAuctions(List<AuctionEntity> auctions) {
+//        this.auctions = auctions;
+//    }
 
     public Long getId() {
         return id;

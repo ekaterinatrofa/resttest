@@ -12,20 +12,20 @@ import java.util.List;
 public class CategoryEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;
 
-    @Column(name = "created_by")
-    private int createBy;
+//    @Column(name = "created_by")
+//    private int createBy;
 
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "created_by", referencedColumnName = "id")
+    @JoinColumn(name = "created_by",referencedColumnName = "id",unique=true)
     private UserEntity userEntity;
 
     public UserEntity getUserEntity() {
@@ -38,18 +38,18 @@ public class CategoryEntity {
         this.userEntity = userEntity;
     }
 
-    @OneToMany(mappedBy = "category")
-    private List<SubcategoryEntity> subcategories = new ArrayList<>();
-
-    public List<SubcategoryEntity> getSubcategories() {
-
-        return subcategories;
-    }
-
-    public void setSubcategories(List<SubcategoryEntity> subcategories) {
-
-        this.subcategories = subcategories;
-    }
+//    @OneToMany(mappedBy = "category")
+//    private List<SubcategoryEntity> subcategories = new ArrayList<>();
+//
+//    public List<SubcategoryEntity> getSubcategories() {
+//
+//        return subcategories;
+//    }
+//
+//    public void setSubcategories(List<SubcategoryEntity> subcategories) {
+//
+//        this.subcategories = subcategories;
+//    }
 
     public int getId() {
         return id;
@@ -59,9 +59,9 @@ public class CategoryEntity {
         return name;
     }
 
-    public int getCreateBy() {
-        return createBy;
-    }
+//    public int getCreateBy() {
+//        return createBy;
+//    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -75,9 +75,9 @@ public class CategoryEntity {
         this.name = name;
     }
 
-    public void setCreateBy(int createBy) {
-        this.createBy = createBy;
-    }
+//    public void setCreateBy(int createBy) {
+//        this.createBy = createBy;
+//    }
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
