@@ -22,6 +22,7 @@ public class AppWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
                 .antMatchers("/auth0/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/register/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/addCategory/**").hasAuthority("admin")
+                .antMatchers(HttpMethod.POST, "/addSubCategory/**").hasAuthority("admin")
                 .antMatchers(HttpMethod.POST, "/updateCategory/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/login/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/listUsers/**").hasAuthority("admin")

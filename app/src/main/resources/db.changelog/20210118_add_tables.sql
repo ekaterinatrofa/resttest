@@ -1,6 +1,6 @@
 CREATE TABLE "category" (
   "id" INT,
-  "name" VARCHAR,
+  "name" VARCHAR UNIQUE,
   "created_by" INT,
   "created_at" TIMESTAMP DEFAULT (now()),
   PRIMARY KEY ("id"),

@@ -27,15 +27,15 @@ public class SubCategoryController {
     @PostMapping("/addSubCategory")
     public String addSubCategory(@RequestBody SubCategoryRequest subCategoryRequest) {
 
-        return subCategoryEntityService.addSubCategory(subCategoryRequest, authenticationService.getUserName());
+        return subCategoryEntityService.addSubCategory(subCategoryRequest);
     }
 
-    @Transactional
-    @PostMapping("/updateCategory")
-    public String updateCategory(@RequestBody CategoryUpdateRequest categoryUpdateRequest) {
-
-      //  return categoryEntityService.updateCategory(categoryUpdateRequest);
-    }
+//    @Transactional
+//    @PostMapping("/updateCategory")
+//    public String updateCategory(@RequestBody CategoryUpdateRequest categoryUpdateRequest) {
+//
+//      //  return categoryEntityService.updateCategory(categoryUpdateRequest);
+//    }
 
 //    @PreAuthorize("hasAuthority('admin')")
 //    @GetMapping("/listUsers")

@@ -26,7 +26,7 @@ public class SubCategoryEntityService {
     public String addSubCategory(SubCategoryRequest subCategoryRequest) {
         var subCategory = new SubCategoryEntity();
         subCategory.setName(subCategoryRequest.getSubCategoryName());
-        subCategory.setCategoryEntity(categoryEntityService.findCategoryByCategoryId(id));
+        subCategory.setCategoryEntity(categoryEntityService.findCategoryByCategoryName(subCategoryRequest.getCategoryName()));
         em.merge(subCategory);
         return subCategory.getName();
     }
