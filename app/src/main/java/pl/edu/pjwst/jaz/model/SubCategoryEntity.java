@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "category")
-public class CategoryEntity {
+@Table(name = "sub_category")
+public class SubCategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,31 +22,19 @@ public class CategoryEntity {
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "created_by",referencedColumnName = "id")
-    private UserEntity userEntity;
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private CategoryEntity categoryEntity;
 
-    public UserEntity getUserEntity() {
-
-        return userEntity;
-    }
-
-    public void setUserEntity(UserEntity userEntity) {
-
-        this.userEntity = userEntity;
-    }
-
-    @OneToMany(mappedBy = "categoryEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<SubCategoryEntity> subcategories = new ArrayList<>();
-
-    public List<SubCategoryEntity> getSubcategories() {
-
-        return subcategories;
-    }
-
-    public void setSubcategories(List<SubCategoryEntity> subcategories) {
-
-        this.subcategories = subcategories;
-    }
+//    @OneToMany(mappedBy = "sub_category")
+//    private List<AuctionEntity> auctions = new ArrayList<>();
+//
+//    public List<AuctionEntity> getAuctions() {
+//        return auctions;
+//    }
+//
+//    public void setAuctions(List<AuctionEntity> auctions) {
+//        this.auctions = auctions;
+//    }
 
     public int getId() {
         return id;
@@ -60,6 +48,10 @@ public class CategoryEntity {
         return createdAt;
     }
 
+    public CategoryEntity getCategoryEntity() {
+        return categoryEntity;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -70,5 +62,9 @@ public class CategoryEntity {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setCategoryEntity(CategoryEntity categoryEntity) {
+        this.categoryEntity = categoryEntity;
     }
 }

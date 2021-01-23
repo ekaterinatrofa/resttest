@@ -47,13 +47,13 @@
 //
 //    @ManyToOne
 //    @JoinColumn(name = "sub_category_id", referencedColumnName = "id")
-//    private SubcategoryEntity subcategory;
+//    private SubCategoryEntity subcategory;
 //
-//    public void setSubcategory(SubcategoryEntity subcategory) {
+//    public void setSubcategory(SubCategoryEntity subcategory) {
 //        this.subcategory = subcategory;
 //    }
 //
-//    public SubcategoryEntity getSubcategory() {
+//    public SubCategoryEntity getSubcategory() {
 //        return subcategory;
 //    }
 //

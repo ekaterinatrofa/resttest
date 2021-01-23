@@ -5,37 +5,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.pjwst.jaz.AuthenticationService;
 import pl.edu.pjwst.jaz.repository.CategoryEntityService;
+import pl.edu.pjwst.jaz.repository.SubCategoryEntityService;
 import pl.edu.pjwst.jaz.requestBody.CategoryRequest;
 import pl.edu.pjwst.jaz.requestBody.CategoryUpdateRequest;
+import pl.edu.pjwst.jaz.requestBody.SubCategoryRequest;
 
 import javax.transaction.Transactional;
 
 @RestController
-public class CategoryController {
-    private final CategoryEntityService categoryEntityService;
+public class SubCategoryController {
+    private final SubCategoryEntityService subCategoryEntityService;
     private final AuthenticationService authenticationService;
 
-
-
-    public CategoryController(CategoryEntityService categoryEntityService, AuthenticationService authenticationService) {
-        this.categoryEntityService = categoryEntityService;
-
+    public SubCategoryController(SubCategoryEntityService subCategoryEntityService, AuthenticationService authenticationService) {
+        this.subCategoryEntityService = subCategoryEntityService;
         this.authenticationService = authenticationService;
     }
 
 
     @Transactional
-    @PostMapping("/addCategory")
-    public String addCategory(@RequestBody CategoryRequest categoryRequest) {
+    @PostMapping("/addSubCategory")
+    public String addSubCategory(@RequestBody SubCategoryRequest subCategoryRequest) {
 
-        return categoryEntityService.addCategory(categoryRequest, authenticationService.getUserName());
+        return subCategoryEntityService.addSubCategory(subCategoryRequest, authenticationService.getUserName());
     }
 
     @Transactional
     @PostMapping("/updateCategory")
     public String updateCategory(@RequestBody CategoryUpdateRequest categoryUpdateRequest) {
 
-        return categoryEntityService.updateCategory(categoryUpdateRequest);
+      //  return categoryEntityService.updateCategory(categoryUpdateRequest);
     }
 
 //    @PreAuthorize("hasAuthority('admin')")

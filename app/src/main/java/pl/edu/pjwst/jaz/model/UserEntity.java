@@ -1,12 +1,14 @@
 package pl.edu.pjwst.jaz.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
-@Table(name = "user")
+@Table(name = "jaz_user")
 
 public class UserEntity {
     @Id
@@ -29,7 +31,8 @@ public class UserEntity {
     private String role;
 
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //@JsonIgnore
     private List<CategoryEntity> categories = new ArrayList<>();
 
     public List<CategoryEntity> getCategories() {

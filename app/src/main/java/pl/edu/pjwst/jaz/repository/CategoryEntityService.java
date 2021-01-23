@@ -1,28 +1,41 @@
 package pl.edu.pjwst.jaz.repository;
 
 import org.springframework.stereotype.Repository;
+import pl.edu.pjwst.jaz.LoginController;
 import pl.edu.pjwst.jaz.model.CategoryEntity;
-import pl.edu.pjwst.jaz.model.UserEntity;
 import pl.edu.pjwst.jaz.requestBody.CategoryRequest;
+import pl.edu.pjwst.jaz.requestBody.CategoryUpdateRequest;
 
 import javax.persistence.EntityManager;
 
 @Repository
 public class CategoryEntityService {
     private EntityManager em;
+    private final UserEntityService userEntityService;
 
-    public CategoryEntityService(EntityManager em) {
+
+
+    public CategoryEntityService(EntityManager em, UserEntityService userEntityService) {
         this.em = em;
+        this.userEntityService = userEntityService;
     }
 
-    public CategoryEntity saveCategory(CategoryRequest categoryRequest) {
+    public String addCategory(CategoryRequest categoryRequest, String user) {
         var categoryEntity = new CategoryEntity();
-//        categoryEntity.setId(categoryRequest.getId());
-//        System.out.println("ID    "+categoryRequest.getId());
-        categoryEntity.setName(categoryRequest.getName());
-    //    categoryEntity.setCreateBy(categoryRequest.getCreatedBy());
+        categoryEntity.setName(categoryRequest.getCategoryName());
+        categoryEntity.setUserEntity(categoryEntity.getUserEntity());
+        categoryEntity.setUserEntity(userEntityService.findUserByUserName(user));
         em.merge(categoryEntity);
-        return findCategoryByCategoryName(categoryRequest.getName());
+        return categoryEntity.getName();
+    }
+
+
+    public String updateCategory(CategoryUpdateRequest categoryUpdateRequest) {
+      //  var categoryEntity = new CategoryEntity();
+        CategoryEntity oldCategoryEntity = findCategoryByCategoryName(categoryUpdateRequest.getOldCategoryName());
+        oldCategoryEntity.setName(categoryUpdateRequest.getNewCategoryName());
+        em.persist(oldCategoryEntity);
+        return oldCategoryEntity.getName();
     }
 
     public CategoryEntity findCategoryByCategoryName(String name) {
@@ -30,6 +43,13 @@ public class CategoryEntityService {
                 .setParameter("name", name)
                 .getSingleResult();
     }
+
+    public CategoryEntity findCategoryByCategoryId(int id) {
+        return em.createQuery("select ce from CategoryEntity ce where ce.id = :id", CategoryEntity.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
 
 
 }

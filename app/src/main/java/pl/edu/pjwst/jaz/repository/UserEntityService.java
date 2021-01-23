@@ -34,8 +34,13 @@ public class UserEntityService {
 
 
     public UserEntity findUserByUserName(String uname) {
-     return em.createQuery("select ue from UserEntity ue where ue.username = :uname", UserEntity.class)
+        return em.createQuery("select ue from UserEntity ue where ue.username = :uname", UserEntity.class)
                 .setParameter("uname", uname)
+                .getSingleResult();
+    }
+    public UserEntity findUserByUserId(Long id) {
+        return em.createQuery("select ue from UserEntity ue where ue.id = :id", UserEntity.class)
+                .setParameter("id", id)
                 .getSingleResult();
     }
 

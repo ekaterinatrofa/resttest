@@ -7,7 +7,7 @@ CREATE TABLE "category" (
 
   CONSTRAINT "created_by"
      FOREIGN KEY ("created_by")
-         REFERENCES "user" ("id")
+         REFERENCES "jaz_user" ("id")
 );
 
 CREATE TABLE "sub_category" (
@@ -34,7 +34,7 @@ CREATE TABLE "auction" (
 
   CONSTRAINT "created_by"
      FOREIGN KEY ("created_by")
-         REFERENCES "user" ("id"),
+         REFERENCES "jaz_user" ("id"),
 
   CONSTRAINT "sub_category_id"
      FOREIGN KEY ("sub_category_id")

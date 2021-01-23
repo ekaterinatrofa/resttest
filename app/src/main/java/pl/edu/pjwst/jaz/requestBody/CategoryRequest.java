@@ -2,31 +2,22 @@ package pl.edu.pjwst.jaz.requestBody;
 
 public class CategoryRequest {
 
-//    private int id;
-    private String name;
-    private int createdBy;
+    private String categoryName;
+    private Long categoryCreatedBy;
 
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-
-    public String getName() {
-        return name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public int getCreatedBy() {
-        return createdBy;
+    public Long getCategoryCreatedBy() {
+        return categoryCreatedBy;
     }
 
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
+    public void setCategoryCreatedBy(Long categoryCreatedBy) {
+        this.categoryCreatedBy = categoryCreatedBy;
     }
 }
