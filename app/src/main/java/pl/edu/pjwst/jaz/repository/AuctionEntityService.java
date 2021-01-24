@@ -6,9 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.pjwst.jaz.AuthenticationService;
-import pl.edu.pjwst.jaz.model.AuctionEntity;
-import pl.edu.pjwst.jaz.model.AuctionPhotoEntity;
-import pl.edu.pjwst.jaz.model.SubCategoryEntity;
+import pl.edu.pjwst.jaz.model.*;
 import pl.edu.pjwst.jaz.requestBody.AuctionRequest;
 import pl.edu.pjwst.jaz.requestBody.AuctionUpdateRequest;
 
@@ -16,6 +14,7 @@ import javax.persistence.EntityManager;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class AuctionEntityService {
@@ -45,8 +44,28 @@ public class AuctionEntityService {
             auctionPhotoEntity.setAuctionEntity(auctionEntity);
             auctionEntity.getAuctionPhotos().add(auctionPhotoEntity);
         }
+        for (Map.Entry<String, String> value : auctionRequest.getParameters().entrySet()) {
+            ParameterEntity parameterEntity =  new ParameterEntity(); // parameter
+            parameterEntity.setKey(value.getKey());
+            System.out.println("get key  " + parameterEntity.getKey());
+            System.out.println("KEY " + value.getKey());
+       //     em.persist(parameterEntity);
 
-        em.persist(auctionEntity);
+            AuctionParameter auctionParameter = new AuctionParameter(); // linking
+            auctionParameter.setValue(value.getValue());
+            auctionParameter.setAuctionEntity(auctionEntity);
+            auctionParameter.setParameterEntity(parameterEntity);
+
+            auctionEntity.getValues().add(auctionParameter);
+            parameterEntity.getValues().add(auctionParameter);
+            //System.out.println("KEY " + value.getKey());
+           // System.out.println("VALUE " + value.getValue());
+
+        }
+
+
+
+        em.merge(auctionEntity);
         return auctionEntity;
     }
 

@@ -7,7 +7,9 @@ import javax.persistence.*;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "auction")
@@ -81,17 +83,17 @@ public class AuctionEntity {
         this.auctionPhotos = auctionPhotos;
     }
 
-//    public Set<AuctionParameter> getValues() {
-//        return values;
-//    }
-//
-//    public void setValues(Set<AuctionParameter> values) {
-//        this.values = values;
-//    }
-//
-//    @OneToMany(mappedBy = "auction")
-//    private Set<AuctionParameter> values;
-//
+    public Set<AuctionParameter> getValues() {
+        return values;
+    }
+
+    public void setValues(Set<AuctionParameter> values) {
+        this.values = values;
+    }
+
+    @OneToMany(mappedBy = "parameterEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<AuctionParameter> values = new HashSet<>();
+
 
     public Long getId() {
         return id;

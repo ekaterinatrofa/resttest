@@ -1,7 +1,9 @@
 package pl.edu.pjwst.jaz.requestBody;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AuctionRequest {
 
@@ -9,7 +11,9 @@ public class AuctionRequest {
     private String auctionDescription;
     private String subCategoryName;
     private BigInteger auctionPrice;
-    private List<String> photos;
+    private List<String> photos = new ArrayList<String>();
+    private Map<String, String> parameters;
+
     public String getAuctionTitle() {
         return auctionTitle;
     }
@@ -48,5 +52,13 @@ public class AuctionRequest {
 
     public void setPhotos(List<String> photos) {
         this.photos = photos;
+    }
+
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Map<String, String> parameters) {
+        this.parameters = parameters;
     }
 }
