@@ -9,6 +9,7 @@ import pl.edu.pjwst.jaz.requestBody.SubCategoryRequest;
 import pl.edu.pjwst.jaz.requestBody.SubCategoryUpdateRequest;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Repository
 public class SubCategoryEntityService {
@@ -35,7 +36,12 @@ public class SubCategoryEntityService {
         em.persist(oldSubCategoryEntity);
         return oldSubCategoryEntity.getName();
     }
-
+    public String updateSubCategoryPut(SubCategoryUpdateRequest subCategoryUpdateRequest, int id) {
+        SubCategoryEntity oldSubCategoryEntity = em.find(SubCategoryEntity.class, id);
+        oldSubCategoryEntity.setName(subCategoryUpdateRequest.getSubCategoryNewName());
+        em.persist(oldSubCategoryEntity);
+        return oldSubCategoryEntity.getName();
+    }
 
     public SubCategoryEntity findSubCategoryBySubCategoryName(String name) {
         return em.createQuery("select se from SubCategoryEntity se where se.name = :name", SubCategoryEntity.class)
@@ -43,5 +49,9 @@ public class SubCategoryEntityService {
                 .getSingleResult();
     }
 
+    public List<SubCategoryEntity> listOfAllSubCategories() {
+        return em.createQuery("select se from SubCategoryEntity se")
+                .getResultList();
 
+    }
 }

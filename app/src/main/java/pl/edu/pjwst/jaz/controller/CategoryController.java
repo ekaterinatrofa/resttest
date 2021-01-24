@@ -1,14 +1,15 @@
 package pl.edu.pjwst.jaz.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.pjwst.jaz.AuthenticationService;
+import pl.edu.pjwst.jaz.model.AuctionEntity;
+import pl.edu.pjwst.jaz.model.CategoryEntity;
 import pl.edu.pjwst.jaz.repository.CategoryEntityService;
 import pl.edu.pjwst.jaz.requestBody.CategoryRequest;
 import pl.edu.pjwst.jaz.requestBody.CategoryUpdateRequest;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RestController
 public class CategoryController {
@@ -19,7 +20,6 @@ public class CategoryController {
 
     public CategoryController(CategoryEntityService categoryEntityService, AuthenticationService authenticationService) {
         this.categoryEntityService = categoryEntityService;
-
         this.authenticationService = authenticationService;
     }
 
@@ -38,18 +38,15 @@ public class CategoryController {
         return categoryEntityService.updateCategory(categoryUpdateRequest);
     }
 
-//    @PreAuthorize("hasAuthority('admin')")
-//    @GetMapping("/listUsers")
-////    public String sayWord() {
-////
-////
-////        return "Hello there!";
-////    }
-//
-//
-//
-//    public List<UserEntity> hello() {
-//        return userEntityService.print();
-//    }
+    @Transactional
+    @PutMapping("/updateCategory/{categoryId}")
+    public String updateCategory(@PathVariable("categoryId") int id, @RequestBody CategoryUpdateRequest categoryUpdateRequest) {
+        return categoryEntityService.updateCategoryPut(categoryUpdateRequest,id);
+    }
 
+
+    @GetMapping("/listCategories")
+    public List<CategoryEntity> listCategories() {
+        return categoryEntityService.listOfAllCategories();
+    }
 }

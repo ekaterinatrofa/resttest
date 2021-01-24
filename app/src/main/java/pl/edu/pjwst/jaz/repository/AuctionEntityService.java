@@ -3,6 +3,7 @@ package pl.edu.pjwst.jaz.repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.pjwst.jaz.AuthenticationService;
@@ -12,7 +13,6 @@ import pl.edu.pjwst.jaz.requestBody.AuctionUpdateRequest;
 
 import javax.persistence.EntityManager;
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -47,25 +47,18 @@ public class AuctionEntityService {
         for (Map.Entry<String, String> value : auctionRequest.getParameters().entrySet()) {
             ParameterEntity parameterEntity =  new ParameterEntity(); // parameter
             parameterEntity.setKey(value.getKey());
-            System.out.println("get key  " + parameterEntity.getKey());
-            System.out.println("KEY " + value.getKey());
-       //     em.persist(parameterEntity);
 
             AuctionParameter auctionParameter = new AuctionParameter(); // linking
             auctionParameter.setValue(value.getValue());
             auctionParameter.setAuctionEntity(auctionEntity);
             auctionParameter.setParameterEntity(parameterEntity);
 
+
             auctionEntity.getValues().add(auctionParameter);
             parameterEntity.getValues().add(auctionParameter);
-            //System.out.println("KEY " + value.getKey());
-           // System.out.println("VALUE " + value.getValue());
-
         }
 
-
-
-        em.merge(auctionEntity);
+        em.persist(auctionEntity);
         return auctionEntity;
     }
 
@@ -96,10 +89,13 @@ public class AuctionEntityService {
             }
             em.merge(oldAuctionEntity);
             return oldAuctionEntity;
+        } catch (ObjectOptimisticLockingFailureException ee) {
+            logger.warn("Somebody has already updated this auction");
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN, "You are not allowed to modify this auction", e);
         }
+        return null;
     }
 
     public AuctionEntity updateAuctionPut(AuctionUpdateRequest auctionUpdateRequest, String user, Long auctionId) {
@@ -135,6 +131,7 @@ public class AuctionEntityService {
         return em.createQuery("select ap.photo,au.title,au.price, au.description from AuctionEntity au, AuctionPhotoEntity ap where " +
                 "ap.auctionEntity.id = au.id and ap.index = 0")
                 .getResultList();
+
 
     }
 

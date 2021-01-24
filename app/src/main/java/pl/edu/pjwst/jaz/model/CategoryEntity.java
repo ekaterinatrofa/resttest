@@ -1,5 +1,6 @@
 package pl.edu.pjwst.jaz.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class CategoryEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_by",referencedColumnName = "id")
+    @JsonIgnore
     private UserEntity userEntity;
 
     public UserEntity getUserEntity() {
@@ -37,6 +39,7 @@ public class CategoryEntity {
     }
 
     @OneToMany(mappedBy = "categoryEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<SubCategoryEntity> subcategories = new ArrayList<>();
 
     public List<SubCategoryEntity> getSubcategories() {

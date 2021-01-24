@@ -22,7 +22,7 @@ public class ParameterEntity {
     private LocalDateTime createdAt;
 
 
-    @OneToMany(mappedBy = "parameterEntity",  cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parameterEntity", fetch = FetchType.EAGER)
     private Set<AuctionParameter> values = new HashSet<>();
 
     public Long getId() {

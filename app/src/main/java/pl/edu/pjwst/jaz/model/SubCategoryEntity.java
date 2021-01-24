@@ -1,5 +1,6 @@
 package pl.edu.pjwst.jaz.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class SubCategoryEntity {
     private CategoryEntity categoryEntity;
 
     @OneToMany(mappedBy = "subcategory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<AuctionEntity> auctions = new ArrayList<>();
 
     public List<AuctionEntity> getAuctions() {

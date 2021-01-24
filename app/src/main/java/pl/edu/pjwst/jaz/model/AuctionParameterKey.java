@@ -50,6 +50,10 @@ public class AuctionParameterKey implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAuctionId(), getParameterId());
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((auctionId == null) ? 0 : auctionId.hashCode());
+        result = prime * result + ((parameterId == null) ? 0 : parameterId.hashCode());
+        return result;
     }
 }

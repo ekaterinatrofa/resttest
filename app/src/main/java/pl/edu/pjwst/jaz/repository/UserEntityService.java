@@ -44,12 +44,8 @@ public class UserEntityService {
                 .getSingleResult();
     }
 
-public List<UserEntity> print() {
-    return em.createQuery("select ue.id, ue.username, ue.firstName, ue.lastName from UserEntity ue")
-    //.getResultStream().collect(toList())
-    .getResultList();
-
-}
-
-
+    public List<UserEntity> print() {
+        return em.createQuery("select ue.id, ue.username, ue.firstName, ue.lastName from UserEntity ue")
+                .getResultList();
+    }
 }
