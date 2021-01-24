@@ -25,16 +25,16 @@ public class SubCategoryEntity {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private CategoryEntity categoryEntity;
 
-//    @OneToMany(mappedBy = "sub_category")
-//    private List<AuctionEntity> auctions = new ArrayList<>();
-//
-//    public List<AuctionEntity> getAuctions() {
-//        return auctions;
-//    }
-//
-//    public void setAuctions(List<AuctionEntity> auctions) {
-//        this.auctions = auctions;
-//    }
+    @OneToMany(mappedBy = "subcategory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<AuctionEntity> auctions = new ArrayList<>();
+
+    public List<AuctionEntity> getAuctions() {
+        return auctions;
+    }
+
+    public void setAuctions(List<AuctionEntity> auctions) {
+        this.auctions = auctions;
+    }
 
     public int getId() {
         return id;

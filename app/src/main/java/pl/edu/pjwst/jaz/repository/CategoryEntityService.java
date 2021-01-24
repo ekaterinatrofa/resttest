@@ -14,7 +14,6 @@ public class CategoryEntityService {
     private final UserEntityService userEntityService;
 
 
-
     public CategoryEntityService(EntityManager em, UserEntityService userEntityService) {
         this.em = em;
         this.userEntityService = userEntityService;
@@ -25,13 +24,12 @@ public class CategoryEntityService {
         categoryEntity.setName(categoryRequest.getCategoryName());
         categoryEntity.setUserEntity(categoryEntity.getUserEntity());
         categoryEntity.setUserEntity(userEntityService.findUserByUserName(user));
-        em.merge(categoryEntity);
+        em.persist(categoryEntity);
         return categoryEntity.getName();
     }
 
 
     public String updateCategory(CategoryUpdateRequest categoryUpdateRequest) {
-      //  var categoryEntity = new CategoryEntity();
         CategoryEntity oldCategoryEntity = findCategoryByCategoryName(categoryUpdateRequest.getOldCategoryName());
         oldCategoryEntity.setName(categoryUpdateRequest.getNewCategoryName());
         em.persist(oldCategoryEntity);

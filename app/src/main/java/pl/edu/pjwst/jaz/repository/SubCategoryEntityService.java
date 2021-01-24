@@ -6,6 +6,7 @@ import pl.edu.pjwst.jaz.model.SubCategoryEntity;
 import pl.edu.pjwst.jaz.requestBody.CategoryRequest;
 import pl.edu.pjwst.jaz.requestBody.CategoryUpdateRequest;
 import pl.edu.pjwst.jaz.requestBody.SubCategoryRequest;
+import pl.edu.pjwst.jaz.requestBody.SubCategoryUpdateRequest;
 
 import javax.persistence.EntityManager;
 
@@ -14,8 +15,6 @@ public class SubCategoryEntityService {
     private EntityManager em;
     private final UserEntityService userEntityService;
     private final CategoryEntityService categoryEntityService;
-
-
 
     public SubCategoryEntityService(EntityManager em, UserEntityService userEntityService, CategoryEntityService categoryEntityService) {
         this.em = em;
@@ -27,24 +26,22 @@ public class SubCategoryEntityService {
         var subCategory = new SubCategoryEntity();
         subCategory.setName(subCategoryRequest.getSubCategoryName());
         subCategory.setCategoryEntity(categoryEntityService.findCategoryByCategoryName(subCategoryRequest.getCategoryName()));
-        em.merge(subCategory);
+        em.persist(subCategory);
         return subCategory.getName();
+    }
+    public String updateSubCategory(SubCategoryUpdateRequest subCategoryUpdateRequest) {
+        SubCategoryEntity oldSubCategoryEntity = findSubCategoryBySubCategoryName(subCategoryUpdateRequest.getSubCategoryOldName());
+        oldSubCategoryEntity.setName(subCategoryUpdateRequest.getSubCategoryNewName());
+        em.persist(oldSubCategoryEntity);
+        return oldSubCategoryEntity.getName();
     }
 
 
-//    public String updateCategory(CategoryUpdateRequest categoryUpdateRequest) {
-//      //  var categoryEntity = new CategoryEntity();
-//        CategoryEntity oldCategoryEntity = findCategoryByCategoryName(categoryUpdateRequest.getOldCategoryName());
-//        oldCategoryEntity.setName(categoryUpdateRequest.getNewCategoryName());
-//        em.persist(oldCategoryEntity);
-//        return oldCategoryEntity.getName();
-//    }
-
-//    public CategoryEntity findCategoryByCategoryName(String name) {
-//        return em.createQuery("select ce from CategoryEntity ce where ce.name = :name", CategoryEntity.class)
-//                .setParameter("name", name)
-//                .getSingleResult();
-//    }
+    public SubCategoryEntity findSubCategoryBySubCategoryName(String name) {
+        return em.createQuery("select se from SubCategoryEntity se where se.name = :name", SubCategoryEntity.class)
+                .setParameter("name", name)
+                .getSingleResult();
+    }
 
 
 }

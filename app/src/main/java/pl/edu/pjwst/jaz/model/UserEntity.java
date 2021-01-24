@@ -49,25 +49,25 @@ public class UserEntity {
         this.categories = categories;
     }
 
-//
-//    @OneToMany(mappedBy = "user")
-//    private List<AuctionEntity> auctions = new ArrayList<>();
-//
-//    public List<AuctionEntity> getAuctions() {
-//        return auctions;
-//    }
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<AuctionEntity> auctions = new ArrayList<>();
+
+    public List<AuctionEntity> getAuctions() {
+        return auctions;
+    }
 
 
-//    public void addAuction(AuctionEntity auction) {
-//        auctions.add(auction);
-//        auction.setUserEntity(this);
-//    }
+    public void addAuction(AuctionEntity auction) {
+        auctions.add(auction);
+        auction.setUserEntity(this);
+    }
 
 
 
-//    public void setAuctions(List<AuctionEntity> auctions) {
-//        this.auctions = auctions;
-//    }
+    public void setAuctions(List<AuctionEntity> auctions) {
+        this.auctions = auctions;
+    }
 
     public Long getId() {
         return id;

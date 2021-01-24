@@ -29,6 +29,7 @@ CREATE TABLE "auction" (
   "sub_category_id" INT,
   "price" INT,
   "created_by" INT,
+  "version" INT,
   "created_at" TIMESTAMP DEFAULT (now()),
   PRIMARY KEY(id),
 

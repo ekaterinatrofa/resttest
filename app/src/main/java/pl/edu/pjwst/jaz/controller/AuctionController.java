@@ -4,36 +4,40 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.edu.pjwst.jaz.AuthenticationService;
+import pl.edu.pjwst.jaz.model.AuctionEntity;
+import pl.edu.pjwst.jaz.repository.AuctionEntityService;
 import pl.edu.pjwst.jaz.repository.CategoryEntityService;
-import pl.edu.pjwst.jaz.repository.SubCategoryEntityService;
+import pl.edu.pjwst.jaz.requestBody.AuctionRequest;
+import pl.edu.pjwst.jaz.requestBody.AuctionUpdateRequest;
 import pl.edu.pjwst.jaz.requestBody.CategoryRequest;
 import pl.edu.pjwst.jaz.requestBody.CategoryUpdateRequest;
-import pl.edu.pjwst.jaz.requestBody.SubCategoryRequest;
-import pl.edu.pjwst.jaz.requestBody.SubCategoryUpdateRequest;
 
 import javax.transaction.Transactional;
 
 @RestController
-public class SubCategoryController {
-    private final SubCategoryEntityService subCategoryEntityService;
+public class AuctionController {
+    private final AuctionEntityService auctionEntityService;
     private final AuthenticationService authenticationService;
 
-    public SubCategoryController(SubCategoryEntityService subCategoryEntityService, AuthenticationService authenticationService) {
-        this.subCategoryEntityService = subCategoryEntityService;
+
+
+    public AuctionController(AuctionEntityService auctionEntityService, AuthenticationService authenticationService) {
+        this.auctionEntityService = auctionEntityService;
         this.authenticationService = authenticationService;
     }
 
 
     @Transactional
-    @PostMapping("/addSubCategory")
-    public String addSubCategory(@RequestBody SubCategoryRequest subCategoryRequest) {
-        return subCategoryEntityService.addSubCategory(subCategoryRequest);
+    @PostMapping("/addAuction")
+    public AuctionEntity addAuction(@RequestBody AuctionRequest auctionRequest) {
+
+        return auctionEntityService.addAuction(auctionRequest, authenticationService.getUserName());
     }
 
     @Transactional
-    @PostMapping("/updateSubCategory")
-    public String updateSubCategory(@RequestBody SubCategoryUpdateRequest subCategoryUpdateRequest) {
-        return subCategoryEntityService.updateSubCategory(subCategoryUpdateRequest);
+    @PostMapping("/updateAuction")
+    public AuctionEntity updateAuction(@RequestBody AuctionUpdateRequest auctionUpdateRequest) {
+        return auctionEntityService.updateAuction(auctionUpdateRequest, authenticationService.getUserName());
     }
 
 //    @PreAuthorize("hasAuthority('admin')")
