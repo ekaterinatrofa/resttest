@@ -71,7 +71,7 @@ CREATE TABLE "auction_photo" (
   "id" SERIAL,
   "auction_id" INT,
   "photo" VARCHAR,
-  "order" INT,
+  "index" INT,
   "created_at" TIMESTAMP DEFAULT (now()),
 
   CONSTRAINT "auction_id"

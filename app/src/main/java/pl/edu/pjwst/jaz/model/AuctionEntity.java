@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "auction")
@@ -19,7 +22,7 @@ public class AuctionEntity {
 
     private String description;
 
-    private int price;
+    private BigInteger price;
 
     @Version
     private Long version;
@@ -63,20 +66,21 @@ public class AuctionEntity {
         return subcategory;
     }
 
-//    @OneToMany(mappedBy = "auction")
-//
-//    private List<AuctionPhotoEntity> auctionPhotos = new ArrayList<>();
-//
-//    public List<AuctionPhotoEntity> getAuctionPhotos() {
-//
-//        return auctionPhotos;
-//    }
-//
-//    public void setAuctionPhotos(List<AuctionPhotoEntity> auctionPhotos) {
-//
-//        this.auctionPhotos = auctionPhotos;
-//    }
-//
+
+    @OneToMany(mappedBy = "auctionEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OrderColumn(name = "index", nullable = false)
+    private List<AuctionPhotoEntity> auctionPhotos = new ArrayList<>();
+
+    public List<AuctionPhotoEntity> getAuctionPhotos() {
+
+        return auctionPhotos;
+    }
+
+    public void setAuctionPhotos(List<AuctionPhotoEntity> auctionPhotos) {
+
+        this.auctionPhotos = auctionPhotos;
+    }
+
 //    public Set<AuctionParameter> getValues() {
 //        return values;
 //    }
@@ -101,7 +105,7 @@ public class AuctionEntity {
         return description;
     }
 
-    public int getPrice() {
+    public BigInteger getPrice() {
         return price;
     }
 
@@ -121,7 +125,7 @@ public class AuctionEntity {
         this.description = description;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigInteger price) {
         this.price = price;
     }
 

@@ -1,8 +1,6 @@
 package pl.edu.pjwst.jaz.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.pjwst.jaz.AuthenticationService;
 import pl.edu.pjwst.jaz.model.AuctionEntity;
 import pl.edu.pjwst.jaz.repository.AuctionEntityService;
@@ -13,6 +11,7 @@ import pl.edu.pjwst.jaz.requestBody.CategoryRequest;
 import pl.edu.pjwst.jaz.requestBody.CategoryUpdateRequest;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RestController
 public class AuctionController {
@@ -40,18 +39,17 @@ public class AuctionController {
         return auctionEntityService.updateAuction(auctionUpdateRequest, authenticationService.getUserName());
     }
 
-//    @PreAuthorize("hasAuthority('admin')")
-//    @GetMapping("/listUsers")
-////    public String sayWord() {
-////
-////
-////        return "Hello there!";
-////    }
-//
-//
-//
-//    public List<UserEntity> hello() {
-//        return userEntityService.print();
-//    }
+
+    @Transactional
+    @PutMapping ("/updateAuction/{auctionId}")
+    public AuctionEntity updateAuction(@PathVariable("auctionId") Long auctionId, @RequestBody AuctionUpdateRequest auctionUpdateRequest) {
+        return auctionEntityService.updateAuctionPut(auctionUpdateRequest, authenticationService.getUserName(),auctionId);
+    }
+
+
+   @GetMapping("/listAuctions")
+   public List<AuctionEntity> hello() {
+        return auctionEntityService.listOfAllAuctions();
+    }
 
 }

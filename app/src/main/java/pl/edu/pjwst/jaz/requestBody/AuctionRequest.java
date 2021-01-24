@@ -1,12 +1,15 @@
 package pl.edu.pjwst.jaz.requestBody;
 
+import java.math.BigInteger;
+import java.util.List;
+
 public class AuctionRequest {
 
     private String auctionTitle;
     private String auctionDescription;
     private String subCategoryName;
-    private int auctionPrice;
-
+    private BigInteger auctionPrice;
+    private List<String> photos;
     public String getAuctionTitle() {
         return auctionTitle;
     }
@@ -31,11 +34,19 @@ public class AuctionRequest {
         this.subCategoryName = subCategoryName;
     }
 
-    public int getAuctionPrice() {
+    public BigInteger getAuctionPrice() {
         return auctionPrice;
     }
 
-    public void setAuctionPrice(int auctionPrice) {
+    public void setAuctionPrice(BigInteger auctionPrice) {
         this.auctionPrice = auctionPrice;
+    }
+
+    public List<String> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<String> photos) {
+        this.photos = photos;
     }
 }

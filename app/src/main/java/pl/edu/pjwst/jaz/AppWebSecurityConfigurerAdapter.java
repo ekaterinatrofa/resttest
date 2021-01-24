@@ -26,6 +26,7 @@ public class AppWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
                 .antMatchers(HttpMethod.POST, "/updateSubCategory/**").hasAuthority("admin")
                 .antMatchers(HttpMethod.POST, "/updateCategory/**").hasAuthority("admin")
                 .antMatchers(HttpMethod.POST, "/addAuction/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/listAuctions/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/login/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/listUsers/**").hasAuthority("admin")
                 .antMatchers("/hello/**").hasAuthority("admin")
