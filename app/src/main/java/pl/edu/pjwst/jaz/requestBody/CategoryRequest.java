@@ -5,6 +5,7 @@ public class CategoryRequest {
     private String categoryName;
     private Long categoryCreatedBy;
 
+
     public String getCategoryName() {
         return categoryName;
     }

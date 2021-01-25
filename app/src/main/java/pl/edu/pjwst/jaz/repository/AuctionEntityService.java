@@ -68,8 +68,8 @@ public class AuctionEntityService {
         try {
             int subCategoryId = subCategoryEntityService.findSubCategoryBySubCategoryName(auctionUpdateRequest.getSubCategoryName()).getId();
             Long createById = userEntityService.findUserByUserName(user).getId();
-            AuctionEntity oldAuctionEntity = findAuction(auctionUpdateRequest.getOldAuctionTitle(), auctionUpdateRequest.getOldAuctionPrice(),
-                    subCategoryId,createById);
+            AuctionEntity oldAuctionEntity = findAuction(auctionUpdateRequest.getOldAuctionTitle(),
+                    auctionUpdateRequest.getOldAuctionPrice(),subCategoryId,createById);
             if (auctionUpdateRequest.getNewAuctionTitle() != null) {
                 oldAuctionEntity.setTitle(auctionUpdateRequest.getNewAuctionTitle());
             }

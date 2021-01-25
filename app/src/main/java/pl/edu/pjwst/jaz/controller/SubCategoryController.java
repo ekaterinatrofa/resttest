@@ -1,5 +1,6 @@
 package pl.edu.pjwst.jaz.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pjwst.jaz.AuthenticationService;
 import pl.edu.pjwst.jaz.model.CategoryEntity;
@@ -24,19 +25,21 @@ public class SubCategoryController {
         this.authenticationService = authenticationService;
     }
 
-
+    @PreAuthorize("hasAuthority('admin')")
     @Transactional
     @PostMapping("/addSubCategory")
     public String addSubCategory(@RequestBody SubCategoryRequest subCategoryRequest) {
         return subCategoryEntityService.addSubCategory(subCategoryRequest);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @Transactional
     @PostMapping("/updateSubCategory")
     public String updateSubCategory(@RequestBody SubCategoryUpdateRequest subCategoryUpdateRequest) {
         return subCategoryEntityService.updateSubCategory(subCategoryUpdateRequest);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @Transactional
     @PutMapping("/updateSubCategory/{subCategoryId}")
     public String updateSubCategory(@PathVariable("subCategoryId") int id, @RequestBody SubCategoryUpdateRequest subCategoryUpdateRequest) {

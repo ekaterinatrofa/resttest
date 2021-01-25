@@ -1,7 +1,9 @@
-package pl.edu.pjwst.jaz;
+package pl.edu.pjwst.jaz.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.pjwst.jaz.User;
+import pl.edu.pjwst.jaz.UserService;
 import pl.edu.pjwst.jaz.model.UserEntity;
 import pl.edu.pjwst.jaz.repository.UserEntityService;
 
@@ -31,16 +33,8 @@ public class RegisterController {
 
     @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/listUsers")
-//    public String sayWord() {
-//
-//
-//        return "Hello there!";
-//    }
-
-
-
-    public List<UserEntity> hello() {
-        return userEntityService.print();
+    public List<UserEntity> showAllUsers() {
+        return userEntityService.listOfUsers();
     }
 
 }

@@ -1,9 +1,7 @@
 package pl.edu.pjwst.jaz.repository;
 
 import org.springframework.stereotype.Repository;
-import pl.edu.pjwst.jaz.LoginController;
 import pl.edu.pjwst.jaz.model.CategoryEntity;
-import pl.edu.pjwst.jaz.model.UserEntity;
 import pl.edu.pjwst.jaz.requestBody.CategoryRequest;
 import pl.edu.pjwst.jaz.requestBody.CategoryUpdateRequest;
 

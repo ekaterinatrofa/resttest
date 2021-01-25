@@ -48,7 +48,7 @@ public class AuctionController {
 
 
    @GetMapping("/listAuctions")
-   public List<AuctionEntity> hello() {
+   public List<AuctionEntity> showAllAuctions() {
         return auctionEntityService.listOfAllAuctions();
     }
 

@@ -1,13 +1,12 @@
 package pl.edu.pjwst.jaz;
 
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
+import pl.edu.pjwst.jaz.requestBody.LoginRequest;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;

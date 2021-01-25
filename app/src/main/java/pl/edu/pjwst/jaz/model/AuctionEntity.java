@@ -92,6 +92,7 @@ public class AuctionEntity {
     }
 
     @OneToMany(mappedBy = "parameterEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<AuctionParameter> values = new HashSet<>();
 
 

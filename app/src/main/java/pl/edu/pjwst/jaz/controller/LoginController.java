@@ -1,11 +1,12 @@
-package pl.edu.pjwst.jaz;
+package pl.edu.pjwst.jaz.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
+import pl.edu.pjwst.jaz.*;
+import pl.edu.pjwst.jaz.requestBody.LoginRequest;
 
 
 @RestController

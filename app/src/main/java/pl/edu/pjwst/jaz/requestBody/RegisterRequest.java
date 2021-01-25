@@ -1,4 +1,6 @@
-package pl.edu.pjwst.jaz;
+package pl.edu.pjwst.jaz.requestBody;
+
+import pl.edu.pjwst.jaz.User;
 
 public class RegisterRequest {
     private String username;

@@ -1,5 +1,6 @@
 package pl.edu.pjwst.jaz.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pjwst.jaz.AuthenticationService;
 import pl.edu.pjwst.jaz.model.AuctionEntity;
@@ -23,7 +24,7 @@ public class CategoryController {
         this.authenticationService = authenticationService;
     }
 
-
+    @PreAuthorize("hasAuthority('admin')")
     @Transactional
     @PostMapping("/addCategory")
     public String addCategory(@RequestBody CategoryRequest categoryRequest) {
@@ -31,6 +32,7 @@ public class CategoryController {
         return categoryEntityService.addCategory(categoryRequest, authenticationService.getUserName());
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @Transactional
     @PostMapping("/updateCategory")
     public String updateCategory(@RequestBody CategoryUpdateRequest categoryUpdateRequest) {
@@ -38,6 +40,7 @@ public class CategoryController {
         return categoryEntityService.updateCategory(categoryUpdateRequest);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @Transactional
     @PutMapping("/updateCategory/{categoryId}")
     public String updateCategory(@PathVariable("categoryId") int id, @RequestBody CategoryUpdateRequest categoryUpdateRequest) {
