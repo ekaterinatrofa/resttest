@@ -12,6 +12,7 @@ import pl.edu.pjwst.jaz.requestBody.AuctionRequest;
 import pl.edu.pjwst.jaz.requestBody.AuctionUpdateRequest;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,7 @@ public class AuctionEntityService {
 
 
     public AuctionEntity updateAuction(AuctionUpdateRequest auctionUpdateRequest, String user) {
-        try {
+        try{
             int subCategoryId = subCategoryEntityService.findSubCategoryBySubCategoryName(auctionUpdateRequest.getSubCategoryName()).getId();
             Long createById = userEntityService.findUserByUserName(user).getId();
             AuctionEntity oldAuctionEntity = findAuction(auctionUpdateRequest.getOldAuctionTitle(),
@@ -82,6 +83,7 @@ public class AuctionEntityService {
             if (auctionUpdateRequest.getPhotos() != null) {
                 for (String ph : auctionUpdateRequest.getPhotos()) {
                     AuctionPhotoEntity auctionPhotoEntity = new AuctionPhotoEntity();
+                    oldAuctionEntity.getAuctionPhotos().clear();
                     auctionPhotoEntity.setPhoto(ph);
                     auctionPhotoEntity.setAuctionEntity(oldAuctionEntity);
                     oldAuctionEntity.getAuctionPhotos().add(auctionPhotoEntity);
@@ -127,7 +129,7 @@ public class AuctionEntityService {
        }
     }
 
-    public List<AuctionEntity> listOfAllAuctions() {
+      public List<AuctionEntity> listOfAllAuctions() {
         return em.createQuery("select ap.photo,au.title,au.price, au.description from AuctionEntity au, AuctionPhotoEntity ap where " +
                 "ap.auctionEntity.id = au.id and ap.index = 0")
                 .getResultList();

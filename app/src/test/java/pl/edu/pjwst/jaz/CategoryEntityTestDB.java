@@ -1,13 +1,13 @@
 package pl.edu.pjwst.jaz;
 
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
-import pl.edu.pjwst.jaz.requestBody.CategoryRequest;
 import pl.edu.pjwst.jaz.requestBody.LoginRequest;
 
 import static io.restassured.RestAssured.given;
@@ -26,41 +26,47 @@ public class CategoryEntityTestDB {
     }
 
 
+    public Response login(String username, String password) {
+        var response = given().log().all()
+                .contentType("application/json")
+                .body(new LoginRequest(username, password))
+                .when()
+                .post("http://localhost:" + port + "/api/login/")
+                .thenReturn();
+        return response;
+    }
+
+    public void addCategory(String categoryName) {
+        given().log().all()
+                .cookies(login("Admin", "admin").getCookies())
+                .contentType("application/json")
+                .body("{\n" +
+                        "    \"categoryName\" : \""+ categoryName +"\"\n" +
+                        "}")
+                .post("http://localhost:" + port + "/api/addCategory/")
+                .thenReturn();
+    }
 
     @Test
     public void whenUserIsLoggedAsAdminAddCategoryShouldReturn200() {
         // @formatter:off
-        var response = given().log().all()
-                         .contentType("application/json")
-                         .body(new LoginRequest("Admin", "admin"))
-        .when()
-                .post("http://localhost:" + port + "/api/login/")
-        .thenReturn();
-        given().log().all()
-                .cookies(response.getCookies())
+        var addCategory = given().log().all()
+                .cookies(login("Admin", "admin").getCookies())
                 .contentType("application/json")
                 .body("{\n" +
                         "    \"categoryName\" : \"TV\"\n" +
                         "}")
                 .post("http://localhost:" + port + "/api/addCategory/")
-                .then()
-                .log().all()
-                .statusCode(200);
+                .thenReturn();
         // @formatter:on
-        assertEquals(200, response.getStatusCode());
+        assertEquals(200, addCategory.getStatusCode());
     }
 
     @Test
     public void whenUserIsNotAdminAddCategoryShouldReturn403() {
         // @formatter:off
-        var loginResponse = given().log().all()
-                .contentType("application/json")
-                .body(new LoginRequest("jaz", "jaz"))
-        .when()
-                .post("http://localhost:" + port + "/api/login/")
-        .thenReturn();
         var addCategoryResponse = given().log().all()
-                .cookies(loginResponse.getCookies())
+                .cookies(login("jaz", "jaz").getCookies())
                 .contentType("application/json")
                 .body("{\n" +
                         "    \"categoryName\" : \"TV\"\n" +
@@ -70,7 +76,6 @@ public class CategoryEntityTestDB {
                 .log().all()
                 .statusCode(403)
           .extract().response();
-
         // @formatter:on
         assertEquals(403, addCategoryResponse.getStatusCode());
     }
@@ -78,20 +83,15 @@ public class CategoryEntityTestDB {
     @Test
     public void whenUserIsLoggedAsAdminUpdateCategoryShouldReturn200() {
         // @formatter:off
-        var loginResponse = given().log().all()
-                .contentType("application/json")
-                .body(new LoginRequest("Admin", "admin"))
-                .when()
-                .post("http://localhost:" + port + "/api/login/")
-                .thenReturn();
+        addCategory("TV");
         var updateCategoryResponse = given().log().all()
-                .cookies(loginResponse.getCookies())
+                .cookies(login("Admin", "admin").getCookies())
                 .contentType("application/json")
                 .body("{\n" +
                         "    \"oldCategoryName\" : \"TV\",\n" +
                         "    \"newCategoryName\" : \"Kate\"\n" +
                         "}")
-                .post("http://localhost:" + port + "/api/addCategory/")
+                .post("http://localhost:" + port + "/api/updateCategory/")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -103,25 +103,18 @@ public class CategoryEntityTestDB {
     @Test
     public void whenUserIsNotAdminUpdateCategoryShouldReturn403() {
         // @formatter:off
-        var loginResponse = given().log().all()
-                .contentType("application/json")
-                .body(new LoginRequest("jaz", "jaz"))
-                .when()
-                .post("http://localhost:" + port + "/api/login/")
-                .thenReturn();
         var updateCategoryResponse = given().log().all()
-                .cookies(loginResponse.getCookies())
+                .cookies(login("jaz", "jaz").getCookies())
                 .contentType("application/json")
                 .body("{\n" +
                         "    \"oldCategoryName\" : \"TV\",\n" +
                         "    \"newCategoryName\" : \"Kate\"\n" +
                         "}")
-                .post("http://localhost:" + port + "/api/addCategory/")
+                .post("http://localhost:" + port + "/api/updateCategory/")
                 .then()
                 .log().all()
                 .statusCode(403)
                 .extract().response();
-
         // @formatter:on
         assertEquals(403, updateCategoryResponse.getStatusCode());
     }
@@ -129,22 +122,7 @@ public class CategoryEntityTestDB {
     @Test
     public void ListOfAllCategoriesIsAvailableForEveryBodyShouldReturn200() {
         // @formatter:off
-        var loginResponse = given().log().all()
-                .contentType("application/json")
-                .body(new LoginRequest("Admin", "admin"))
-                .when()
-                .post("http://localhost:" + port + "/api/login/")
-                .thenReturn();
-        given().log().all()
-                .cookies(loginResponse.getCookies())
-                .contentType("application/json")
-                .body("{\n" +
-                        "    \"categoryName\" : \"Laptops\"\n" +
-                        "}")
-                .post("http://localhost:" + port + "/api/addCategory/")
-                .then()
-                .log().all()
-                .statusCode(200);
+        addCategory("Laptops");
         var response = given().log().all()
                 .contentType("application/json")
                 .when()

@@ -1,6 +1,8 @@
 package pl.edu.pjwst.jaz.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.edu.pjwst.jaz.AuthenticationService;
 import pl.edu.pjwst.jaz.model.AuctionEntity;
 import pl.edu.pjwst.jaz.repository.AuctionEntityService;
@@ -29,8 +31,14 @@ public class AuctionController {
     @Transactional
     @PostMapping("/addAuction")
     public AuctionEntity addAuction(@RequestBody AuctionRequest auctionRequest) {
+        try{
+            return auctionEntityService.addAuction(auctionRequest, authenticationService.getUserName());
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "You are not logged in", e);
+        }
 
-        return auctionEntityService.addAuction(auctionRequest, authenticationService.getUserName());
+
     }
 
     @Transactional

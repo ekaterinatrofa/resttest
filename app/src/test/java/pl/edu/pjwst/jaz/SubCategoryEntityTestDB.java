@@ -1,6 +1,7 @@
 package pl.edu.pjwst.jaz;
 
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,28 +25,47 @@ public class SubCategoryEntityTestDB {
         RestAssured.port = port;
     }
 
+    public Response login(String username, String password) {
+        var response = given().log().all()
+                .contentType("application/json")
+                .body(new LoginRequest(username, password))
+                .when()
+                .post("http://localhost:" + port + "/api/login/")
+                .thenReturn();
+        return response;
+    }
+
+    public void addCategory(String categoryName) {
+        given().log().all()
+                .cookies(login("Admin", "admin").getCookies())
+                .contentType("application/json")
+                .body("{\n" +
+                        "    \"categoryName\" : \""+ categoryName +"\"\n" +
+                        "}")
+                .post("http://localhost:" + port + "/api/addCategory/")
+                .thenReturn();
+    }
+    public void addSubCategory(String categoryName, String subCategoryName) {
+                 given().log().all()
+                .cookies(login("Admin", "admin").getCookies())
+                .contentType("application/json")
+                .body("{\n" +
+                        "    \"categoryName\" : \""+categoryName+"\",\n" +
+                        "    \"subCategoryName\" : \""+subCategoryName+"\"\n" +
+                        "}")
+                .post("http://localhost:" + port + "/api/addSubCategory/")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().response();
+    }
 
     @Test
     public void whenUserIsLoggedAsAdminAddSubCategoryShouldReturn200() {
         // @formatter:off
-        var loginResponse = given().log().all()
-                         .contentType("application/json")
-                         .body(new LoginRequest("Admin", "admin"))
-        .when()
-                .post("http://localhost:" + port + "/api/login/")
-        .thenReturn();
-        var addCategoryResponse = given().log().all()
-                .cookies(loginResponse.getCookies())
-                .contentType("application/json")
-                .body("{\n" +
-                        "    \"categoryName\" : \"Phones\"\n" +
-                        "}")
-                .post("http://localhost:" + port + "/api/addCategory/")
-                .then()
-                .log().all()
-                .statusCode(200);
+        addCategory("Phones");
         var addSubCategoryResponse = given().log().all()
-                .cookies(loginResponse.getCookies())
+                .cookies(login("Admin", "admin").getCookies())
                 .contentType("application/json")
                 .body("{\n" +
                         "    \"categoryName\" : \"Phones\",\n" +
@@ -63,14 +83,8 @@ public class SubCategoryEntityTestDB {
     @Test
     public void whenUserIsNotAdminAddSubCategoryShouldReturn403() {
         // @formatter:off
-        var loginResponse = given().log().all()
-                .contentType("application/json")
-                .body(new LoginRequest("jaz", "jaz"))
-        .when()
-                .post("http://localhost:" + port + "/api/login/")
-        .thenReturn();
         var addCategoryResponse = given().log().all()
-                .cookies(loginResponse.getCookies())
+                .cookies(login("jaz", "jaz").getCookies())
                 .contentType("application/json")
                 .body("{\n" +
                         "    \"categoryName\" : \"Phones\",\n" +
@@ -81,7 +95,6 @@ public class SubCategoryEntityTestDB {
                 .log().all()
                 .statusCode(403)
           .extract().response();
-
         // @formatter:on
         assertEquals(403, addCategoryResponse.getStatusCode());
     }
@@ -89,24 +102,9 @@ public class SubCategoryEntityTestDB {
     @Test
     public void whenUserIsLoggedAsAdminUpdateSubCategoryShouldReturn200() {
         // @formatter:off
-        var loginResponse = given().log().all()
-                .contentType("application/json")
-                .body(new LoginRequest("Admin", "admin"))
-                .when()
-                .post("http://localhost:" + port + "/api/login/")
-                .thenReturn();
-        var addCategoryResponse = given().log().all()
-                .cookies(loginResponse.getCookies())
-                .contentType("application/json")
-                .body("{\n" +
-                        "    \"categoryName\" : \"Blenders\"\n" +
-                        "}")
-                .post("http://localhost:" + port + "/api/addCategory/")
-                .then()
-                .log().all()
-                .statusCode(200);
+        addCategory("Blenders");
         var addSubCategoryResponse = given().log().all()
-                .cookies(loginResponse.getCookies())
+                .cookies(login("Admin", "admin").getCookies())
                 .contentType("application/json")
                 .body("{\n" +
                         "    \"categoryName\" : \"Blenders\",\n" +
@@ -118,7 +116,7 @@ public class SubCategoryEntityTestDB {
                 .statusCode(200)
                 .extract().response();
         var updateSubCategoryResponse = given().log().all()
-                .cookies(loginResponse.getCookies())
+                .cookies(login("Admin", "admin").getCookies())
                 .contentType("application/json")
                 .body("{\n" +
                         "    \"subCategoryOldName\" : \"Philips\",\n" +
@@ -162,34 +160,8 @@ public class SubCategoryEntityTestDB {
     @Test
     public void ListOfAllSubCategoriesIsAvailableForEveryBodyShouldReturn200() {
         // @formatter:off
-        var loginResponse = given().log().all()
-                .contentType("application/json")
-                .body(new LoginRequest("Admin", "admin"))
-                .when()
-                .post("http://localhost:" + port + "/api/login/")
-                .thenReturn();
-        var addCategoryResponse = given().log().all()
-                .cookies(loginResponse.getCookies())
-                .contentType("application/json")
-                .body("{\n" +
-                        "    \"categoryName\" : \"Bus\"\n" +
-                        "}")
-                .post("http://localhost:" + port + "/api/addCategory/")
-                .then()
-                .log().all()
-                .statusCode(200);
-        var addSubCategoryResponse = given().log().all()
-                .cookies(loginResponse.getCookies())
-                .contentType("application/json")
-                .body("{\n" +
-                        "    \"categoryName\" : \"Bus\",\n" +
-                        "    \"subCategoryName\" : \"BMW\"\n" +
-                        "}")
-                .post("http://localhost:" + port + "/api/addSubCategory/")
-                .then()
-                .log().all()
-                .statusCode(200)
-                .extract().response();
+        addCategory("Bus");
+        addSubCategory("Bus", "BMW");
         var response = given().log().all()
                 .contentType("application/json")
                 .when()

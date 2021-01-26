@@ -14,6 +14,9 @@ public class AuctionRequest {
     private List<String> photos = new ArrayList<String>();
     private Map<String, String> parameters;
 
+
+    private Long version;
+
     public String getAuctionTitle() {
         return auctionTitle;
     }
@@ -60,5 +63,13 @@ public class AuctionRequest {
 
     public void setParameters(Map<String, String> parameters) {
         this.parameters = parameters;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }
